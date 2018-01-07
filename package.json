@@ -1,0 +1,38 @@
+{
+  "name": "smart-fridge",
+  "version": "1.0.0",
+  "description": "Smart Fridge Challenge",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "eslint": "^3.18.0"
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-use-before-define": 1,
+      "arrow-body-style": 1,
+      "dot-notation": 1,
+      "no-console": 1,
+      "spaced-comment": 1,
+      "comma-dangle": 1,
+      "arrow-parens": 1,
+      "block-scoped-var": 1,
+      "vars-on-top": 1,
+      "no-var": 1,
+      "no-redeclare": 1,
+      "no-unused-vars": 1
+    },
+    "env": {
+      "mocha": true,
+      "node": true
+    }
+  },
+  "author": "Jason Hurst",
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^3.1.0"
+  }
+}
