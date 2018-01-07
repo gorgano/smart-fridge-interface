@@ -28,7 +28,11 @@ returnTime[] getItems( Double fillFactor );
 ```
 The above seems more explicit on what is being returned and doesn’t force the caller to understand the return shape by ordinal.
 
-
+## Usage
+```bash
+> npm install
+> npm start
+```
 
 ## Inital Challange
 ```java

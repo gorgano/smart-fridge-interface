@@ -5,11 +5,11 @@ const SmartFridgeInterfaceFactory = require('./SmartFridgeInterface');
 const memoryFridge = InMemoryFridgeFactory();
 const smartFridge = SmartFridgeInterfaceFactory(memoryFridge);
 
-// Create known items and add
+// Create known items
 // This would be handled by some event emitter, 
 //   but this will serve as an example
 // Create 6 item type 1, with a max quantity of 10
-// Keep reference of first item for later
+// Keep reference of first item and second items for later
 const uItem1 = uuidv4();
 const uItem2 = uuidv4();
 smartFridge.handleItemAdded(1, uItem1, "Any Name", 10);
