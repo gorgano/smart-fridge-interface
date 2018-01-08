@@ -5,16 +5,40 @@
 * The intent of the `fillFactor`, especially around adding items is unclear to me.  
 I have several different ideas on what it could mean when adding items, however for this I will assume it is the **maximum number of items of that type**.
 
-  I would be happy to talk further and explore other meanings.  `getItems` talks about containers, which makes me wonder if itemUUID is more of a containerId, with its `fillFactor` being the count within the container.  Further, that `fillFactor` is a double suggests partial amounts.
+  I would be happy to talk further and explore other meanings.  `getItems` talks about containers, which makes me wonder if itemUUID is more of a containerId, with its `fillFactor` being the count within the container.  
+  
+  Another possibility is the `fillFactor` represents the percentage of the total for that itemType the new item represents.
 
-* I also assume that language is not important.  I will be using **Node**.  *I understand you are moving in that direction* and it is the language I have been using most heavily in the past year.  Node has no interface concept, being prototype.  However, many of the benefits of an interface may be obtained by using dependency injection and inversion of control.  Though this is admittedly closer in behavior to an abstract class.
+* The intent of the `name` parameter on the `handleAddItem` function is a little unclear as well.  I would assume it is either:
+  * The name of the *item*; this seems unlikely as I don't see why an item would have a name. viz why would an 'apple' `type` have a special name?
+  * The name of the *type*; this feels more likely, but out of place here. If the type is already defined by the `itemType`, wouldn't there be a lookup table that stored information around the type?  I would assume there would be a `createType` implementation to store type information in a particular way.
 
-  If you need me to re-write this in C# or Java, please let me know.
+  In the end, the `name` is never referenced in any of the calls, so I have **not stored the value**.  Since it appears un-used, I would normally recommend removing it.  If the second method above *is* the intent, I would suggest moving the item type creation to a central area.
+
+* I assume that language is not important.  I will be using **Node**.  *I understand you are moving in that direction*  Node has no interface concept, being prototype.  However, many of the benefits of an interface may be obtained by using dependency injection and inversion of control.  Though this is admittedly closer in behavior to an abstract class.
+
+## Implementation
+My solution uses dependency injection to allow different storage methods.  The interface further allows inversion of control, using the injected methods to perform the real work.  
+
+Going forward, if a more classic 'extension' is desired for a child class, one would simply use a known storage method (InMemoryFridge) and expose functions from SmartFridgeInterface.
+
+For instance, if a Samsung Smart Fridge was desired:
+
+```javascript
+function SamsungSmartFridge() {
+  this.init = () => {
+    const memoryFridge = InMemoryFridgeFactory();
+    const smartFridge = SmartFridgeInterfaceFactory(memoryFridge);
+    this = smartFridge;
+  }
+  ...
+}
+```
 
 ## Observations
 
 ### UUID?
-I’m curious about the choice of a string variable type to represent a UUID.  Java has a UUID type and I was currious if there was a reason behind using a string instead.
+I’m curious about the choice of a string variable type to represent a UUID.  Java has a UUID type and I was curious if there was a reason behind using a string instead.
 
 ### getItems return type
 The return from getItems is an array of objects (array of arrays).  Why was that used rather than returning an array of a specific class.  For instance:
@@ -34,7 +58,7 @@ The above seems more explicit on what is being returned and doesn’t force the 
 > npm start
 ```
 
-## Inital Challange
+## Initial Challenge
 ```java
 /**
  * Interface for the Smart Fridge Manager
