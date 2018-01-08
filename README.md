@@ -18,6 +18,7 @@ I have several different ideas on what it could mean when adding items, however 
 * I assume that language is not important.  I will be using **Node**.  *I understand you are moving in that direction*  Node has no interface concept, being prototype.  However, many of the benefits of an interface may be obtained by using dependency injection and inversion of control.  Though this is admittedly closer in behavior to an abstract class.
 
 ## Implementation
+### Classic Polymorphic Behavior
 My solution uses dependency injection to allow different storage methods.  The interface further allows inversion of control, using the injected methods to perform the real work.  
 
 Going forward, if a more classic 'extension' is desired for a child class, one would simply use a known storage method (InMemoryFridge) and expose functions from SmartFridgeInterface.
@@ -34,6 +35,12 @@ function SamsungSmartFridge() {
   ...
 }
 ```
+
+### A note on Storage and Computational Complexity
+I used memory storage for simplicity.  To that end, I also store some things multiple time.  For insance the itemUUID is stored in both `itemsByUUID` as well as in `itemsByType`.  This is done to increase seak time in the following instances:
+* `handleItemRemoved`, uses `itemsByUUID` to lookup the type of the time.  This alows for a faster path to the type and recalculating the metrics.  
+* `handleItemAdd`, performs all calculations, as this is expected to be called less than `getItems`.
+* `forgetItem`, uses `itemsByType` to quickly identify all the items of a given type.  This prevents the application from needing to loop over *every* item in the fridge.
 
 ## Observations
 
